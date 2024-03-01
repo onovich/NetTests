@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using UnityEngine.UI;
+using MortiseFrame.LitIO;
 
 public class ClientMain : MonoBehaviour {
 
@@ -29,7 +30,8 @@ public class ClientMain : MonoBehaviour {
         if (client.Poll(0, SelectMode.SelectRead)) {
             byte[] data = new byte[1024];
             int count = client.Receive(data);
-            int id = data[0];
+            int offset = 0;
+            int id = ByteReader.Read<int>(data, ref offset);
             switch (id) {
                 case 100:
                     Debug.Log("ConnectResMessage");
