@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine.UI;
 using MortiseFrame.LitIO;
+using System;
 
 public class ClientMain : MonoBehaviour {
 
@@ -66,8 +67,9 @@ public class ClientMain : MonoBehaviour {
 
             ByteWriter.Write<int>(data, len, ref offset);
             ByteWriter.Write<byte>(data, id, ref offset);
-            ByteWriter.WriteArray<byte>(data, src, ref offset);
-            Debug.Log("Send Message ID: " + id + ", Length: " + len + ",  Type: " + message.GetType());
+            // ByteWriter.WriteArray<byte>(data, src, ref offset);
+            Buffer.BlockCopy(data, 0, this.data, 0, offset);
+            offset += src.Length;
         }
         if (offset > 0) {
             client.Send(data, 0, offset, SocketFlags.None);
