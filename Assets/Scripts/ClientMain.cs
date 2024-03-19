@@ -26,6 +26,7 @@ public class ClientMain : MonoBehaviour {
 
         clientCore = new ClientCore();
         Register();
+        BindingEvent();
 
         RLog.Log += (msg) => Debug.Log("On Log: " + msg);
         RLog.Warning += (msg) => Debug.Log("On Info: " + msg);
@@ -33,7 +34,7 @@ public class ClientMain : MonoBehaviour {
 
     }
 
-    void On() {
+    void BindingEvent() {
         clientCore.OnConnect(OnConnect);
         clientCore.On<ConnectResMessage>((msg) => OnConnectRes((ConnectResMessage)msg));
         clientCore.On<LoginResMessage>((msg) => LoginRes((LoginResMessage)msg));
@@ -69,17 +70,20 @@ public class ClientMain : MonoBehaviour {
 
     void OnClickConnect() {
         clientCore.Connect("127.0.0.1", 8080);
+        Debug.Log("OnClickConnect: Connect To :" + "127.0.0.1: 8080");
     }
 
     void OnClickLogin() {
         LoginReqMessage msg = new LoginReqMessage();
         msg.userToken = userName.text;
         clientCore.Send(msg);
+        Debug.Log("OnClickLogin: Send LoginReqMessage " + msg.userToken);
     }
 
     void OnClickClose() {
         CloseReqMessage msg = new CloseReqMessage();
         clientCore.Send(msg);
+        Debug.Log("OnClickClose: Send CloseReqMessage");
     }
 
     void Update() {
