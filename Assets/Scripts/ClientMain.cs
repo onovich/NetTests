@@ -26,12 +26,18 @@ public class ClientMain : MonoBehaviour {
 
         clientCore = new ClientCore();
         Register();
+
+        RLog.Log += (msg) => Debug.Log("On Log: " + msg);
+        RLog.Warning += (msg) => Debug.Log("On Info: " + msg);
+        RLog.Error += (msg) => Debug.Log("On Error: " + msg);
+
     }
 
     void On() {
         clientCore.OnConnect(OnConnect);
         clientCore.On<ConnectResMessage>((msg) => OnConnectRes((ConnectResMessage)msg));
         clientCore.On<LoginResMessage>((msg) => LoginRes((LoginResMessage)msg));
+        clientCore.OnError(OnError);
     }
 
     void LoginRes(LoginResMessage msg) {
