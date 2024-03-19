@@ -53,7 +53,6 @@ public class ClientMain : MonoBehaviour {
 
     void OnConnect() {
         Debug.Log("On Connected");
-        recvText.text = "Connected";
     }
 
     void OnError(string error) {
